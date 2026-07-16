@@ -8,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class Login {
 
+  /**{
+  "fullName": "Kanchan Raj",
+  "email": "Kanchan@test.com",
+  "mobileNo": "9876543219",
+  "password": "123456789",
+  "roleName": "Doctor",
+  "isActive": true
+} */
 }

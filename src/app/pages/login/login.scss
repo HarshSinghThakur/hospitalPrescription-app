@@ -1,0 +1,68 @@
+:host {
+  display: block;
+}
+
+.login-page {
+  background: linear-gradient(135deg, #f5f9fc 0%, #eef7ff 100%);
+}
+
+.hero-panel {
+  background: linear-gradient(135deg, #0f4c81 0%, #4fc3f7 100%);
+  min-height: 520px;
+}
+
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 38%);
+  pointer-events: none;
+}
+
+.brand-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 0.6rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.login-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f4c81, #4fc3f7);
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.text-navy {
+  color: #0f4c81;
+}
+
+.text-sky {
+  color: #4fc3f7;
+}
+
+.btn-login {
+  background: linear-gradient(135deg, #0f4c81, #4fc3f7);
+  border: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-login:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 76, 129, 0.2);
+}
+
+.form-control:focus {
+  border-color: #4fc3f7;
+  box-shadow: 0 0 0 0.2rem rgba(79, 195, 247, 0.2);
+}
