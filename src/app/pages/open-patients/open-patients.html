@@ -1,0 +1,121 @@
+<section class="open-patients-page">
+    <div class="page-header">
+        <div>
+            <p class="eyebrow">Clinical workflow</p>
+            <h2>Open Patients</h2>
+        </div>
+        <button type="button" class="primary-btn">Add New Visit</button>
+    </div>
+
+    <div class="patient-summary-card">
+        <div class="patient-meta">
+            <div class="patient-avatar">AK</div>
+            <div>
+                <h3>{{patientDetails().fullName}}</h3>
+                <p>{{patientDetails().fullName}}</p>
+            </div>
+        </div>
+        <div class="patient-stats">
+            <div>
+                <span class="stat-label">Gender</span>
+                <strong>{{patientDetails().gender}}</strong>
+            </div>
+            <div>
+                <span class="stat-label">Phoner</span>
+                <strong>{{patientDetails().phone}}</strong>
+            </div>
+            <div>
+                <span class="stat-label">Address</span>
+                <strong>{{patientDetails().address}}</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="left-panel">
+            <div class="panel-card">
+                <div class="panel-title-row">
+                    <h4>Visit History</h4>
+                    <span class="muted-text">{{visitList().length}} recent visits</span>
+                </div>
+                <div class="visit-list">
+
+                    @for(item of visitList(); track $index){
+                    <button type="button" class="visit-item active">
+                        <div>
+                            <strong>{{item?.visitDate}}</strong>
+                            <p>{{item.symptoms}}</p>
+                            <p>{{item.diagnosis}}</p>
+                        </div>
+                        <span class="badge success">{{item.visitStatus}}</span>
+                    </button>
+                    }
+                </div>
+
+            </div>
+
+            <div class="panel-card">
+                <div class="panel-title-row">
+                    <h4>Current Visit Notes</h4>
+                    <span class="muted-text">Doctor summary</span>
+                </div>
+                <p class="notes-text">Patient reports mild fatigue and occasional dizziness. Blood pressure remains
+                    controlled after the last dosage adjustment. Continue observation for 24 hours.</p>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="panel-card">
+                <div class="panel-title-row">
+                    <h4>Prescriptions</h4>
+                    <span class="muted-text">Selected visit</span>
+                </div>
+
+                <div class="prescription-block">
+                    <div class="prescription-header">
+                        <h5>Current Medication Plan</h5>
+                        <span class="pill">Updated</span>
+                    </div>
+                    <ul class="prescription-list">
+                        <li>
+                            <div>
+                                <strong>Paracetamol</strong>
+                                <p>500 mg • Every 6 hours</p>
+                            </div>
+                            <span class="badge success">Active</span>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Amoxicillin</strong>
+                                <p>250 mg • Twice daily</p>
+                            </div>
+                            <span class="badge neutral">Pending</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prescription-form">
+                    <h5>Add New Prescription</h5>
+                    <form></form>
+                    <div class="form-group">
+                        <label>Medicine name</label>
+                        <input type="text" placeholder="Enter medicine" formControlName="medicineId"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Dosage</label>
+                        <input type="text" placeholder="e.g. 500 mg" />
+                    </div>
+                    <div class="form-group">
+                        <label>Frequency</label>
+                        <input type="text" placeholder="e.g. Twice daily" />
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea rows="3" placeholder="Add clinical notes"></textarea>
+                    </div>
+                    <button type="button" class="primary-btn full-width">Save Prescription</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
