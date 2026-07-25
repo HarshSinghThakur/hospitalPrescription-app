@@ -8,10 +8,21 @@ import { UserModel } from '../models/classes/User.Model';
 
 @Service()
 export class UserService {
-  
-    http = inject(HttpClient);
 
-    onLogin(request: any) : Observable<LoginUserModel>{
+    http = inject(HttpClient);
+    loggedinUserData!: LoginUserModel;
+
+    constructor() {
+        this.assignLoggedUser();
+    }
+
+    assignLoggedUser() {
+        const loggedData = sessionStorage.getItem(GlobalConstant.LOGGED_USER_SESSION_KEY);
+        if (loggedData) {
+            this.loggedinUserData = JSON.parse(loggedData);
+        }
+    }
+    onLogin(request: any): Observable<LoginUserModel> {
         return this.http.post<LoginUserModel>(environment.API_URL + GlobalConstant.API_METHOD.LOGIN, request)
     }
 

@@ -1,0 +1,125 @@
+<div class="container-fluid py-3">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-semibold">Medicine Management</h5>
+                        <div>
+                            <button class="btn btn-dark btn-sm" (click)="toggleFormVisibility()">
+                                <i class="bi bi-plus-circle"></i> Add Medicine
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Name</th>
+                                    <th>Strength</th>
+                                    <th>Form</th>
+                                    <th width="150">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for(item of medicineList(); track $index){
+                                <tr>
+                                    <td>{{item.medicineId}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.strength}}</td>
+                                    <td>{{item.form}}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-success"
+                                            (click)="editMedicine(item)">Edit</button>
+                                        <button class="btn btn-sm btn-danger"
+                                            (click)="deleteMedicine(item)">Delete</button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @if(isFormOpen){
+                <div class="col-lg-4">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-dark">
+                            <div class="row">
+                                <h6 class="col-md-6 mb-3 fw-semibold">Medicine Details</h6>
+                                <div class="col-md-6 mb-3 text-end">
+                                    <button class="btn btn-dark btn-sm" (click)="toggleFormVisibility()">
+                                        <i class="bi bi-x-lg"></i> Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Medicine Name</label>
+                                        <input type="text" class="form-control" [formField]="medicineForm.name"
+                                            placeholder="Enter Medicine Name">
+                                        @if( medicineForm.name().touched()){
+                                        <div class="text-danger">
+                                            @for (item of medicineForm.name().errors(); track $index){
+                                            {{item.message}}
+                                            }
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Strength</label>
+                                        <input type="text" class="form-control" [formField]="medicineForm.strength"
+                                            placeholder="Enter Strength">
+                                        @if( medicineForm.strength().touched()){
+                                        <div class="text-danger">
+                                            @for (item of medicineForm.strength().errors(); track $index){
+                                            {{item.message}}
+                                            }
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Form</label>
+                                        <select class="form-select" [formField]="medicineForm.form">
+                                            @for(item of medicineFormList; track $index){
+                                            <option>{{item}}</option>
+                                            }
+                                        </select>
+                                        @if( medicineForm.form().touched()){
+                                        <div class="text-danger">
+                                            @for (item of medicineForm.form().errors(); track $index){
+                                            {{item.message}}
+                                            }
+                                        </div>
+                                        }
+                                    </div>
+
+                                    <div class="col-12">
+                                        <hr>
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button type="submit" class="btn btn-primary" (click)="onSaveMedicine()">
+                                                <i class="bi bi-save"></i> Save Medicine
+                                            </button>
+                                            <button type="reset" class="btn btn-secondary">
+                                                <i class="bi bi-arrow-clockwise"></i> Reset
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

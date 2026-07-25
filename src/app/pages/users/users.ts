@@ -17,6 +17,7 @@ export class Users implements OnInit {
   userService = inject(UserService);
 
   @ViewChild('searchTemplate') searchDropdown!: ElementRef;
+  loggedinUser: LoginUserModel = this.userService.loggedinUserData;
 
   constructor(private formBuilder: FormBuilder) {
     this.initializeForm();

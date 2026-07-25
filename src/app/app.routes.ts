@@ -4,6 +4,8 @@ import { Layout } from './pages/layout/layout';
 import { Users } from './pages/users/users';
 import { MedicinesMaster } from './pages/medicines-master/medicines-master';
 import { OpenPatients } from './pages/open-patients/open-patients';
+import { RegisterPatient } from './pages/patient/register-patient/register-patient';
+import { PatientList } from './pages/patient/patient-list/patient-list';
 
 export const routes: Routes = [
     {
@@ -16,7 +18,11 @@ export const routes: Routes = [
         component: Login 
     },
     {
-        path: '',
+        path: 'register-patient',
+        component: RegisterPatient,
+    },
+    {
+        path: 'admin',
         component: Layout,
         children: [
             {
@@ -30,6 +36,10 @@ export const routes: Routes = [
             {
                 path: "open-patient/:patientId",
                 component: OpenPatients
+            },
+            {
+                path: 'patient-list',
+                component: PatientList
             }
         ]
     },
