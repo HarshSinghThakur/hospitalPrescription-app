@@ -4,8 +4,6 @@ import { Layout } from './pages/layout/layout';
 import { Users } from './pages/users/users';
 import { MedicinesMaster } from './pages/medicines-master/medicines-master';
 import { OpenPatients } from './pages/open-patients/open-patients';
-import { RegisterPatient } from './pages/patient/register-patient/register-patient';
-import { PatientList } from './pages/patient/patient-list/patient-list';
 
 export const routes: Routes = [
     {
@@ -13,13 +11,9 @@ export const routes: Routes = [
         component: Login,
         pathMatch: 'full'
     },
-    { 
-        path: 'login', 
-        component: Login 
-    },
     {
-        path: 'register-patient',
-        component: RegisterPatient,
+        path: 'login',
+        component: Login
     },
     {
         path: 'admin',
@@ -30,16 +24,12 @@ export const routes: Routes = [
                 component: Users
             },
             {
-                path: "medicine-master",
+                path: 'medicine-master',
                 component: MedicinesMaster
             },
             {
-                path: "open-patient/:patientId",
+                path: 'open-patient/:patientId',
                 component: OpenPatients
-            },
-            {
-                path: 'patient-list',
-                component: PatientList
             }
         ]
     },
