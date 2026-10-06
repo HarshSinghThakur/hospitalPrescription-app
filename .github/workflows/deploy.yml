@@ -1,4 +1,3 @@
-```yaml
 # GitHub Actions workflow for deploying the Angular application
 # to GitHub Pages.
 #
@@ -95,5 +94,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-```
 
