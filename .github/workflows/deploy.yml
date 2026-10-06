@@ -1,230 +1,99 @@
 ```yaml
-# ============================================================
-# GitHub Actions Workflow
-# Purpose:
-# Build the Angular hospitalPrescription application
-# and deploy it to GitHub Pages.
+# GitHub Actions workflow for deploying the Angular application
+# to GitHub Pages.
 #
 # Source branch:
 # develop
 #
-# Repository:
-# HarshSinghThakur/hospitalPrescription-app
-#
-# Final website:
+# Website:
 # https://harshsinghthakur.github.io/hospitalPrescription-app/
-# ============================================================
 
-# Name displayed in GitHub Actions
 name: Deploy Angular App to GitHub Pages
 
-
-# ============================================================
-# WHEN SHOULD THIS WORKFLOW RUN?
-# ============================================================
+# Run this workflow whenever code is pushed to develop.
 on:
-  # Run the workflow whenever code is pushed to the develop branch
   push:
     branches:
       - develop
 
-
-# ============================================================
-# PERMISSIONS
-# ============================================================
-# These permissions allow GitHub Actions to:
-#
-# contents: read
-#   -> Read/checkout the source code from the repository.
-#
-# pages: write
-#   -> Upload and deploy the application to GitHub Pages.
-#
-# id-token: write
-#   -> Allows GitHub's deployment system to authenticate
-#      the deployment securely.
-# ============================================================
+# Permissions required by GitHub Pages deployment.
 permissions:
   contents: read
   pages: write
   id-token: write
 
-
-# ============================================================
-# CONCURRENCY
-# ============================================================
-# Prevents multiple GitHub Pages deployments from running
-# at the same time.
-#
-# Example:
-# If you push 3 commits quickly, GitHub can cancel an older
-# deployment and continue with the latest one.
-# ============================================================
+# If a new deployment starts, cancel an older deployment.
 concurrency:
   group: pages
   cancel-in-progress: true
 
-
-# ============================================================
-# JOB 1: BUILD
-# ============================================================
-# This job runs on a temporary Ubuntu Linux machine provided
-# by GitHub.
-#
-# Its responsibility is:
-# 1. Download our source code
-# 2. Install Node.js
-# 3. Install npm dependencies
-# 4. Build the Angular application
-# 5. Prepare the build files for GitHub Pages
-# ============================================================
 jobs:
 
+  # ==========================================================
+  # BUILD JOB
+  # ==========================================================
   build:
-
-    # GitHub provides a fresh Ubuntu virtual machine
     runs-on: ubuntu-latest
 
     steps:
 
-      # --------------------------------------------------------
-      # STEP 1: CHECKOUT SOURCE CODE
-      # --------------------------------------------------------
-      # Downloads the code from our GitHub repository
-      # into the GitHub Actions runner.
-      # --------------------------------------------------------
+      # Download the repository source code.
       - name: Checkout source code
         uses: actions/checkout@v4
 
-
-      # --------------------------------------------------------
-      # STEP 2: INSTALL NODE.JS
-      # --------------------------------------------------------
-      # Angular requires Node.js to run the Angular CLI
-      # and build the application.
-      #
-      # Node.js version 24 is installed on the runner.
-      #
-      # cache: npm
-      # -> Caches npm packages to make future builds faster.
-      # --------------------------------------------------------
+      # Install Node.js 24.
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
-
-      # --------------------------------------------------------
-      # STEP 3: INSTALL PROJECT DEPENDENCIES
-      # --------------------------------------------------------
-      # npm ci reads package-lock.json and installs the exact
-      # dependency versions defined by the project.
-      #
-      # npm ci is preferred in CI/CD because it provides
-      # reproducible builds.
-      # --------------------------------------------------------
+      # Install exactly the dependencies from package-lock.json.
       - name: Install dependencies
         run: npm ci
 
-
-      # --------------------------------------------------------
-      # STEP 4: BUILD ANGULAR APPLICATION
-      # --------------------------------------------------------
-      # npx ng build
-      # -> Uses Angular CLI to compile the application.
-      #
-      # --configuration production
-      # -> Creates an optimized production build.
-      #
-      # --base-href /hospitalPrescription-app/
-      # -> VERY IMPORTANT for GitHub Pages.
+      # Build the Angular application for production.
       #
       # GitHub Pages hosts this project under:
-      #
       # /hospitalPrescription-app/
       #
-      # Without the correct base-href, Angular may look for
-      # JavaScript/CSS files at the wrong URL and show a
-      # blank page.
-      # --------------------------------------------------------
+      # Therefore Angular needs this base URL.
       - name: Build Angular application
         run: npx ng build --configuration production --base-href /hospitalPrescription-app/
 
-
-      # --------------------------------------------------------
-      # STEP 5: CONFIGURE GITHUB PAGES
-      # --------------------------------------------------------
-      # This prepares GitHub Pages for the deployment.
-      #
-      # enablement: true
-      # -> Allows GitHub Actions to enable/configure Pages
-      #    for the repository when required.
-      # --------------------------------------------------------
+      # Configure GitHub Pages.
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-
-      # --------------------------------------------------------
-      # STEP 6: UPLOAD BUILD ARTIFACT
-      # --------------------------------------------------------
-      # Angular creates the production files here:
+      # Upload the Angular production build.
       #
+      # Our local Angular build creates:
       # dist/hospitalPrescription
-      #
-      # upload-pages-artifact packages those files so the
-      # deployment job can publish them to GitHub Pages.
-      # --------------------------------------------------------
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist/hospitalPrescription
 
-
   # ==========================================================
-  # JOB 2: DEPLOY
-  # ==========================================================
-  # This job takes the artifact created by the build job
-  # and publishes it to GitHub Pages.
+  # DEPLOY JOB
   # ==========================================================
   deploy:
-
-    # GitHub environment used for the Pages deployment
-    environment:
-      name: github-pages
-
-      # GitHub automatically provides the final deployed URL
-      # through steps.deployment.outputs.page_url
-      url: ${{ steps.deployment.outputs.page_url }}
-
-
-    # Deployment also runs on a temporary Ubuntu runner
     runs-on: ubuntu-latest
 
-
-    # ----------------------------------------------------------
-    # IMPORTANT:
-    # The deploy job will NOT start until the build job
-    # successfully completes.
-    # ----------------------------------------------------------
+    # Deploy only after the build job succeeds.
     needs: build
 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
 
-      # --------------------------------------------------------
-      # STEP 7: DEPLOY TO GITHUB PAGES
-      # --------------------------------------------------------
-      # deploy-pages downloads the artifact created by
-      # upload-pages-artifact and publishes it to GitHub Pages.
-      #
-      # id: deployment
-      # -> Gives this deployment step an ID so we can retrieve
-      #    the final Pages URL above.
-      # --------------------------------------------------------
+      # Publish the uploaded artifact to GitHub Pages.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 ```
+
